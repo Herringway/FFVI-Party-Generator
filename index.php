@@ -13,3 +13,4 @@ for ($i = 0; $i < 3; $i++) {
 }
 
 $dwoo->output('ffvichars.tpl', array('chars' => $finalchars));
+?>
