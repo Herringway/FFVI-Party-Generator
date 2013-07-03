@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" manifest="cache.manifest" xml:lang="en" lang="en">
 	<head>
 		<title>FF6 Random Parties</title>
 		<link rel="shortcut icon" href="ffvisprites/terra.gif" />
