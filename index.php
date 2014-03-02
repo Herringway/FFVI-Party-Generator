@@ -2,19 +2,24 @@
 require_once 'Dwoo/dwooAutoload.php';
 $dwoo = new Dwoo();
 $battleatnarshechars = array('Celes', 'Locke', 'Sabin', 'Edgar', 'Cyan', 'Gau', 'Terra');
-$postbattleatnarshechars = array('Celes', 'Locke', 'Sabin', 'Edgar', 'Cyan', 'Gau');
+$postbattleatnarshechars = array('Celes', 'Locke', 'Sabin', 'Edgar', 'Cyan', 'Gau', 'Shadow');
 $vectorchars = array('Shadow', 'Sabin', 'Edgar', 'Cyan', 'Gau'); $vectorreqs = array('Celes', 'Locke');
+$floatchars = array('Terra', 'Locke', 'Celes', 'Relm', 'Strago', 'Cyan', 'Sabin', 'Edgar', 'Shadow', 'Setzer', 'Gau'); $floatreqs = array('Shadow');
 $finalchars = array('Terra', 'Locke', 'Celes', 'Relm', 'Strago', 'Cyan', 'Sabin', 'Mog', 'Edgar', 'Gogo', 'Shadow', 'Umaro', 'Setzer', 'Gau');
+$phoenixchars = array('Terra', 'Celes', 'Relm', 'Strago', 'Cyan', 'Sabin', 'Mog', 'Edgar', 'Gogo', 'Shadow', 'Umaro', 'Setzer', 'Gau');
 
 if (!isset($_GET['trand']))
-        srand(ip2long($_SERVER['REMOTE_ADDR']));
+	srand(ip2long($_SERVER['REMOTE_ADDR']));
 
 $parties = array();
 $parties['Battle at Narshe'] = generate_parties(3, $battleatnarshechars);
 $parties['To Zozo'] = generate_parties(1, $postbattleatnarshechars);
+if (in_array('Shadow', $parties['To Zozo'][0]))
+	unset($vectorchars[0]); //Shadow is unavailable if recruited to zozo
 $parties['Vector'] = generate_parties(1, $vectorchars, $vectorreqs);
-//$parties['Floating Continent'] = generate_parties(1, $vectorchars, $vectorreqs);
+//$parties['Floating Continent'] = generate_parties(1, $floatchars, $floatreqs);
 $parties['World of Ruin'] = generate_parties(1, $finalchars);
+$parties['Phoenix Cave'] = generate_parties(2, $phoenixchars);
 $parties['Final Dungeon'] = generate_parties(3, $finalchars);
 
 $dwoo->output('ffvichars.tpl', array('parties' => $parties));
@@ -22,14 +27,14 @@ $dwoo->output('ffvichars.tpl', array('parties' => $parties));
 function generate_parties($numparties, $characters, $requiredchars = array()) {
 	$output = array();
 	
-	for ($i = 0; $i < $numparties; $i++)
-		$output[$i][] = get_and_remove_element($requiredchars, $characters);
+	for ($i = 0; $i < $numparties; $i++) //for each party,
+		$output[$i][] = get_and_remove_element($requiredchars, $characters); //ensure that all the required characters for the scenario are in at least one of the parties
 
-	$dist = random_distribution(min($numparties*3, count($characters)), 3, $numparties);
+	$dist = random_distribution(min($numparties*3, count($characters)), 3, $numparties); //determine how many characters should be available in each party
 
-	for ($i = 0; $i < $numparties; $i++)
-		for ($j = 0; $j < $dist[$i]; $j++)
-			$output[$i][] = get_and_remove_element($requiredchars, $characters);
+	for ($i = 0; $i < $numparties; $i++) //for every party,
+		for ($j = 0; $j < $dist[$i]; $j++) //and every character meant to be in the party,
+			$output[$i][] = get_and_remove_element($requiredchars, $characters); //select an available character and add it to the party
 	
 	return $output;
 }
