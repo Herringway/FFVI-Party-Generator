@@ -4,7 +4,28 @@
 		<title>FF6 Random Parties</title>
 		<link rel="shortcut icon" href="sprites/terra.gif" />
 	</head>
-	<body style="background: lightgray;">
-		{loop $parties}<table><tr><th colspan="5" style="text-align: center; background: white;">{$_key} {tif count($) > 1 ? "Parties" : "Party"}</th></tr>{loop $}<tr><td style="text-align: center; width: 100px; background: white;">Team {$_key+1}</td>{loop $}<td style="text-align: center; width: 75px; background: white;"><img alt="{$}" src="sprites/{replace($, ' ', '%20')|lower}.gif"><br>{$}</td>{/loop}</tr>{/loop}</table>{/loop}
+	<style>
+		body            {background: lightgray; }
+		table           {text-align: center;}
+		th, td          {background: white;}
+		td              {width: 75px;}
+		td:first-child  {width: 100px;}
+	</style>
+	<body>
+		{%for party,chars in parties%}
+
+		<table>
+			<tr>
+				<th colspan="5">{{party}} {{(chars|length > 1) ? "Parties" : "Party"}}</th>
+			</tr>{%for id,characters in chars %}
+
+			<tr>
+				<td>Team {{id+1}}</td>{%for character in characters %}
+
+				<td><img alt="{{character|capitalize}}" src="sprites/{{character|replace({' ': '%20'})}}.gif"><br>{{character|capitalize}}</td>{%endfor%}
+
+			</tr>{%endfor%}
+
+		</table>{%endfor%}
 	</body>
 </html>
