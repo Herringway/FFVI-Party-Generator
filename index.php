@@ -1,5 +1,5 @@
 <?php
-require_once 'Twig/Autoloader.php';
+require_once 'vendor/autoload.php';
 $battleatnarshechars = array('celes', 'locke', 'sabin', 'edgar', 'cyan', 'gau', 'terra');
 $postbattleatnarshechars = array('celes', 'locke', 'sabin', 'edgar', 'cyan', 'gau', 'shadow');
 $vectorchars = array('shadow', 'sabin', 'edgar', 'cyan', 'gau'); $vectorreqs = array('celes', 'locke');
